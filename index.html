@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title></title>
+        <style>
+            *{
+            -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial;
+            }
+
+            html,
+            body{
+            height: 100%;
+            width: 100%;
+            }
+
+            .chat{
+            background: -webkit-linear-gradient(#333, #000);
+            background:    -moz-linear-gradient(#333, #000);
+            background:      -o-linear-gradient(#333, #000);
+            background:         linear-gradient(#333, #000);
+            border-radius: 10px;
+            width: 600px;
+            padding: 2.5%;
+            margin: 2.5% auto;
+            }
+
+            .chat-form{
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-flow: row wrap;
+                -ms-flex-flow: row wrap;
+                    flex-flow: row wrap;
+            width: 100%;
+            padding: 2.5%;
+            }
+
+            .chat-mensagens{
+            background: #fff;
+            overflow-y: scroll;
+            height: 300px;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            }
+
+            .chat-mensagens p{
+            margin-bottom: 20px;
+            }
+
+            .chat-mensagens span{
+            border: 1px solid #000;
+            border-radius: 10px;
+            padding: 1%;
+            }
+
+            .chat-input{
+            border: 1px solid #fff;
+            height: 30px;
+            width: 100%;
+            margin-bottom: 10px;
+            }
+
+            .chat-textarea{
+            border: 1px solid #fff;
+            height: 50px;
+            width: 100%;
+            margin-bottom: 10px;
+            }
+
+            .chat-button{
+            background: -webkit-linear-gradient(#fff, #ccc);
+            background:    -moz-linear-gradient(#fff, #ccc);
+            background:      -o-linear-gradient(#fff, #ccc);
+            background:         linear-gradient(#fff, #ccc);
+            border: 1px solid #fff;
+            height: 40px;
+            width: 100%;
+            }
+        </style>
+    </head>
+    <body class="container">
+        <noscript>
+        Se você estiver lendo esta mensagem é porque o seu navegador não suporta javascript ou porque a permissão de executar javascripts está desabilitada.
+        </noscript>
+
+        <section class="chat">
+            <form action="#" class="chat-form" onsubmit="return enviarMensagem();">
+                <div id="chat-mensagens" class="chat-mensagens"></div>
+                <input type="text" name="nome" id="nome" class="chat-input" placeholder="Digite seu nome..." required>
+                <textarea name="mensagem" id="mensagem" class="chat-textarea" placeholder="Digite sua mensagem..." required></textarea>
+                <input type="submit" value="Enviar" class="chat-button"/>
+            </form>
+        </section>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io();
+
+            function postarMensagem(dados){
+                var nome = dados.nome;
+                var texto = dados.mensagem;
+                if(nome.length && texto.length){
+                    var usuario = document.createTextNode(nome + ': ');
+                    var mensagem = document.createTextNode(texto);
+                    var postagem = document.createElement("span");
+                    var paragrafo = document.createElement("p");
+                    postagem.appendChild(mensagem);
+                    paragrafo.appendChild(usuario);
+                    paragrafo.appendChild(postagem);
+                    document.getElementById("chat-mensagens").appendChild(paragrafo);
+                    document.getElementById("mensagem").value = "";
+                }
+            }
+
+            function enviarMensagem(){
+                var socket = io();
+                var nome = document.getElementById("nome").value;
+                var mensagem = document.getElementById("mensagem").value;
+                var dados = {
+                    nome: nome,
+                    mensagem: mensagem,
+                };
+                socket.emit('mensagens', dados);
+                return false;
+            }
+
+            socket.on('mensagens', function(dados){
+                postarMensagem(dados);
+            });
+        </script>
+    </body>
+</html>
