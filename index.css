@@ -1,0 +1,92 @@
+*{
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+}
+
+html,
+body{
+    height: 100%;
+    width: 100%;
+}
+
+.chat{
+    background: -webkit-linear-gradient(#333, #000);
+    background:    -moz-linear-gradient(#333, #000);
+    background:      -o-linear-gradient(#333, #000);
+    background:         linear-gradient(#333, #000);
+    border-radius: 10px;
+    padding: 2.5%;
+    margin: 2.5% auto;
+}
+
+.chat-form{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+        -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
+    width: 100%;
+    padding: 2.5%;
+}
+
+.chat-mensagens{
+    background: #fff;
+    overflow-y: scroll;
+    height: 300px;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.chat-mensagens p{
+    margin-bottom: 20px;
+}
+
+.chat-mensagens span{
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 1%;
+}
+
+.chat-input{
+    border: 1px solid #fff;
+    height: 30px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.chat-textarea{
+    border: 1px solid #fff;
+    height: 50px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.chat-button{
+    background: -webkit-linear-gradient(#fff, #ccc);
+    background:    -moz-linear-gradient(#fff, #ccc);
+    background:      -o-linear-gradient(#fff, #ccc);
+    background:         linear-gradient(#fff, #ccc);
+    border: 1px solid #fff;
+    height: 40px;
+    width: 100%;
+}
+
+@media (min-width: 0) and (max-width: 500px){
+    .chat{
+        width: 90%;
+    }
+}
+
+@media (min-width: 501px){
+    .chat{
+        width: 500px;
+    }
+}

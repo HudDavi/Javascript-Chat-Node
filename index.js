@@ -1,10 +1,18 @@
-const app = require('express')();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+const express = require('express');
+const path = require('path');
+
+const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+app.use(express.static(path.join(__dirname, '/')));
+app.set('views', path.join(__dirname, '/'));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
+app.use('/', (req,res) =>{
+    res.render('index.html');
 });
 
 io.on('connection', (socket) => {
@@ -13,6 +21,4 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(port, () => {
-  console.log(`Servidor em Execução http://localhost:${port}/`);
-});
+server.listen(3000);
